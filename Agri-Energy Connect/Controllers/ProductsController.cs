@@ -18,6 +18,11 @@ namespace Agri_Energy_Connect.Controllers
             _context = context;
         }
 
+        public IList<ProductCategory> GetProductCategories()
+        {
+            return _context.ProductCategories.ToList();
+        }
+
         // GET: Products
         public async Task<IActionResult> Index()
         {
@@ -48,6 +53,7 @@ namespace Agri_Energy_Connect.Controllers
         public IActionResult Create()
         {
             ViewData["ProductCategoryId"] = new SelectList(_context.ProductCategories, "Id", "Id");
+            ViewBag.DropdownOptions = GetProductCategories();
             return View();
         }
 
@@ -56,14 +62,23 @@ namespace Agri_Energy_Connect.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProductName,Details,Price,ProductionDate,Quantity,Unit,ExpirationDate,ProductCategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,ProductName,Details,Price,ProductionDate,Quantity,Unit,ExpirationDate,ProductCategoryId")] Product product, 
+            int categoryId)
         {
-            if (ModelState.IsValid)
+            product.FarmerId = HttpContext.Session.GetString("currentUser");
+            product.ProductCategoryId = categoryId;
+
+            try
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+
             ViewData["ProductCategoryId"] = new SelectList(_context.ProductCategories, "Id", "Id", product.ProductCategoryId);
             return View(product);
         }

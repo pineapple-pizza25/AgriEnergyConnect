@@ -40,7 +40,7 @@ namespace Agri_Energy_Connect.Controllers
                 var fbAuthLink = await auth.SignInWithEmailAndPasswordAsync(email, password);
                 string currentUserId = fbAuthLink.User.LocalId;
 
-                if (_context.Employees.Any(e => e.Id != currentUserId)) return View(); //https://stackoverflow.com/questions/23654057/check-if-record-exists-in-entity-framework
+                if (_context.Employees.Any(e => e.Id == currentUserId)) return View(); //https://stackoverflow.com/questions/23654057/check-if-record-exists-in-entity-framework
 
                 if (currentUserId != null)
                 {
