@@ -1,4 +1,5 @@
 using Agri_Energy_Connect.Models;
+using Agri_Energy_Connect.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,12 +12,14 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddScoped<NavBarService>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AgriEnergyConnectContext>(options =>
     options.UseSqlServer("Server=labVMH8OX\\SQLEXPRESS;Database=AgriEnergyConnect;Trusted_Connection=True;TrustServerCertificate=True;"));
 
-//builder.Services.AddScoped<DropdownService>();
+builder.Services.AddHttpContextAccessor();
 
 
 var app = builder.Build();
@@ -40,6 +43,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=FarmerAuth}/{action=Register}");
+    pattern: "{controller=Home}/{action=Index}");
 
 app.Run();

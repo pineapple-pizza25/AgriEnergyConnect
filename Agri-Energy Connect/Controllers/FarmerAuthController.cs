@@ -49,6 +49,7 @@ namespace Agri_Energy_Connect.Controllers
                 if (currentUserId != null)
                 {
                     HttpContext.Session.SetString("currentUser", currentUserId);
+                    HttpContext.Session.SetString("userRole", "farmer");
                     return RedirectToAction("Index", "Products");
                 }
 
