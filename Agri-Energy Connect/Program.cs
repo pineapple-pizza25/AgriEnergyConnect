@@ -40,6 +40,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=FarmerAuth}/{action=Login}");
+    pattern: "{controller=FarmerAuth}/{action=Register}");
 
 app.Run();

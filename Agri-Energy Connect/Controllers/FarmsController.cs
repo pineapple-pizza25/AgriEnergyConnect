@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Agri_Energy_Connect.Models;
+using Agri_Energy_Connect.Utils;
 
 namespace Agri_Energy_Connect.Controllers
 {
     public class FarmsController : Controller
     {
         private readonly AgriEnergyConnectContext _context;
+        readonly UserChecker _userChecker;
 
         public FarmsController(AgriEnergyConnectContext context)
         {
             _context = context;
+            _userChecker = new UserChecker();
         }
 
         // GET: Farms
@@ -47,6 +50,9 @@ namespace Agri_Energy_Connect.Controllers
         // GET: Farms/Create
         public IActionResult Create()
         {
+            if (!_userChecker.IsEmployee(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole")))
+            { return RedirectToAction("Index", "Home"); }
+
             ViewData["FarmerId"] = new SelectList(_context.Farmers, "Id", "Id");
             return View();
         }
@@ -58,6 +64,9 @@ namespace Agri_Energy_Connect.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FarmerId,FarmName,FarmDescription,FarmAddress")] Farm farm)
         {
+            if (!_userChecker.IsEmployee(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole")))
+            { return View("Index", "Home"); }
+
             if (ModelState.IsValid)
             {
                 _context.Add(farm);

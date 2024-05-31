@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Agri_Energy_Connect.Models;
+using Agri_Energy_Connect.Utils;
 
 namespace Agri_Energy_Connect.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly AgriEnergyConnectContext _context;
+        readonly UserChecker _userChecker;
 
         public ProductsController(AgriEnergyConnectContext context)
         {
             _context = context;
+            _userChecker = new UserChecker();
         }
 
         public IList<ProductCategory> GetProductCategories()
@@ -24,11 +27,32 @@ namespace Agri_Energy_Connect.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchBy, string searchValue)
         {
-            var agriEnergyConnectContext = _context.Products.Include(p => p.ProductCategory);
-            return View(await agriEnergyConnectContext.ToListAsync());
+            var agriEnergyContext = _context.Products.Include(b => b.ProductCategory);
+            if (string.IsNullOrEmpty(searchValue))
+            {
+                TempData["InfoMessage"] = "Please provide a search value";
+            }
+            else
+            {
+                if (searchBy == "ProductName")
+                {
+                    var search = agriEnergyContext.Where(p => p.ProductName.ToLower().Contains(searchValue.ToLower()));
+                    return View(search);
+                }
+                else if (searchBy == "ProductCategory")
+                {
+                    var search = agriEnergyContext.Where(p => p.ProductCategory.CategoryName.Contains(searchValue.ToLower()));
+                    return View(search);
+                }
+                
+            }
+
+            return View(await agriEnergyContext.ToListAsync());
         }
+
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -65,6 +89,9 @@ namespace Agri_Energy_Connect.Controllers
         public async Task<IActionResult> Create([Bind("Id,ProductName,Details,Price,ProductionDate,Quantity,Unit,ExpirationDate,ProductCategoryId")] Product product, 
             int categoryId)
         {
+            if (!_userChecker.IsFarmer(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole"))) 
+            { return RedirectToAction("Index", "Home"); ; }
+
             product.FarmerId = HttpContext.Session.GetString("currentUser");
             product.ProductCategoryId = categoryId;
 
@@ -168,6 +195,25 @@ namespace Agri_Energy_Connect.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> MyProducts()
+        {
+            var agriEnergyContext = _context.Products.Include(b => b.Farmer);
+            string userId = HttpContext.Session.GetString("currentUser");
+            if (string.IsNullOrEmpty(userId))
+            {
+                TempData["InfoMessage"] = "Please Log In to see your products";
+            }
+            else
+            {
+                
+                    var myProducts = agriEnergyContext.Where(p => p.Farmer.Id == userId);
+                    return View(myProducts);
+               
+            }
+
+            return View(await agriEnergyContext.ToListAsync());
         }
 
         private bool ProductExists(int id)

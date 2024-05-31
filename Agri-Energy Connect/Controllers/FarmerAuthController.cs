@@ -1,5 +1,6 @@
 ﻿using Agri_Energy_Connect.Models.MathApp.Models;
 using Agri_Energy_Connect.Models;
+using Agri_Energy_Connect.Utils;
 using Firebase.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,13 +12,16 @@ namespace Agri_Energy_Connect.Controllers
     public class FarmerAuthController : Controller
     {
         FirebaseAuthProvider auth;
-
+        readonly UserChecker _userChecker;
         private readonly AgriEnergyConnectContext _context;
+     
 
         public FarmerAuthController(AgriEnergyConnectContext context)
         {
             _context = context;
             auth = new FirebaseAuthProvider(new FirebaseConfig(Environment.GetEnvironmentVariable("FirebaseAgriEnergy")));
+            _userChecker = new UserChecker();
+           
         }
 
         public IList<FarmerCategory> GetDropdownOptions()
@@ -69,16 +73,23 @@ namespace Agri_Energy_Connect.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            if (_userChecker.IsEmployee(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole"))) 
+            {
+                ViewBag.DropdownOptions = GetDropdownOptions();
 
-            ViewBag.DropdownOptions = GetDropdownOptions();
+                return View();
+            }
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(string password, string firstName, string lastName, string adminAddress, 
             string phoneNumber, string email, DateOnly dateOfBirth, string gender, int categoryId)
         {
+            if (!_userChecker.IsEmployee(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole"))) 
+            { return RedirectToAction("Index", "Home"); }
+
             try
             {
                 await auth.CreateUserWithEmailAndPasswordAsync(email, password);
@@ -90,11 +101,7 @@ namespace Agri_Energy_Connect.Controllers
 
                 await CreateFarmer(currentUserId, firstName, lastName, adminAddress, phoneNumber, email, dateOfBirth, gender, categoryId);
 
-                if (currentUserId != null)
-                {
-                    HttpContext.Session.SetString("currentUser", currentUserId);
-                    return RedirectToAction("Index", "Products");
-                }
+                return RedirectToAction("Index", "Home");
             }
             catch (FirebaseAuthException ex)
             {

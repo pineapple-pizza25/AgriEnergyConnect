@@ -9,6 +9,31 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<div>
+    @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+    {
+        <table>
+            <tr>
+                <td>
+                    <span>Search BY :</span>
+                    @Html.RadioButton("searchBy", "ProductName", true)
+                    <Text>Product Name</Text>
+                    @Html.RadioButton("searchBy", "ProductCategory")
+                    <Text>Category</Text>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBox("searchValue", null, new { Class = "form-control" })
+                </td>
+                <td>
+                    <input type="submit" value="Search" class="btn btn-success" />
+                </td>
+            </tr>
+        </table>
+    }
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -64,7 +89,7 @@
                 @Html.DisplayFor(modelItem => item.ExpirationDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductCategory.Id)
+                @Html.DisplayFor(modelItem => item.ProductCategory.CategoryName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

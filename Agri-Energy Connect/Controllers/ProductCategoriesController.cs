@@ -6,23 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Agri_Energy_Connect.Models;
+using Agri_Energy_Connect.Utils;
 
 namespace Agri_Energy_Connect.Controllers
 {
     public class ProductCategoriesController : Controller
     {
         private readonly AgriEnergyConnectContext _context;
+        readonly UserChecker _userChecker;
 
         public ProductCategoriesController(AgriEnergyConnectContext context)
         {
             _context = context;
+            _userChecker = new UserChecker();
         }
 
         // GET: ProductCategories
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchValue)
         {
             return View(await _context.ProductCategories.ToListAsync());
         }
+
+        //return View(await _context.ProductCategories.ToListAsync());
 
         // GET: ProductCategories/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -45,6 +50,9 @@ namespace Agri_Energy_Connect.Controllers
         // GET: ProductCategories/Create
         public IActionResult Create()
         {
+            if (!_userChecker.IsEmployee(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole")))
+            { return View("Index", "Home"); }
+
             return View();
         }
 
@@ -55,6 +63,9 @@ namespace Agri_Energy_Connect.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CategoryName,Details")] ProductCategory productCategory)
         {
+            if (!_userChecker.IsEmployee(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole")))
+            { return RedirectToAction("Index", "Home"); ; }
+
             if (ModelState.IsValid)
             {
                 _context.Add(productCategory);
