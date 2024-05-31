@@ -1,12 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Http
-@using Agri_Energy_Connect.Services
-@inject Agri_Energy_Connect.Services.NavBarService navBarService
+
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
     string userId = HttpContextAccessor.HttpContext.Session.GetString("currentUser");
     string userRole = HttpContextAccessor.HttpContext.Session.GetString("userRole");
-    var navBarItems = navBarService.GetNavBarItems(userRole);
+
 }
 
 
@@ -23,33 +22,9 @@
 <body>
     <header>
 
-        @if (userRole == "employee") {
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Agri_Energy_Connect</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        }
-        else if (userRole == "farmer")
+        @if (userRole == "employee")
         {
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background: linear-gradient(to right, #2e6329, #97c68d);">
                 <div class="container-fluid">
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Agri_Energy_Connect</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -58,15 +33,76 @@
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Farmers
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="loginDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Farmers" asp-action="Index">View Farmers</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="FarmerAuth" asp-action="Register">Add a Farmer</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Farms
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="loginDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Farms" asp-action="Index">View Farmers</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Farms" asp-action="Create">Add a Farm</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Farmer Categories
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="loginDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="FarmerCategories" asp-action="Index">View Farmer Categories</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="FarmerCategories" asp-action="Create">Add a Farmer categories</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Product Categories
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="loginDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Farms" asp-action="Index">View Product Categories</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Farms" asp-action="Create">Add Product categories</a>
+                                </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="EmployeeAuth" asp-action="Logout">Log Out</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        }
+        else if (userRole == "farmer")
+        {
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background: linear-gradient(to right, #2e6329, #97c68d);">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Agri_Energy_Connect</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Products
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="loginDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Products" asp-action="Index">View Products</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Products" asp-action="Create">Add a Product</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Products" asp-action="MyProducts">View Your Products</a>
+                                </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="FarmerAuth" asp-action="Logout">Log Out</a>
                             </li>
+
                         </ul>
                     </div>
                 </div>
@@ -74,7 +110,7 @@
         }
         else if (userId == null || userId == "")
         {
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background: linear-gradient(to right, #2e6329, #97c68d);">
                 <div class="container-fluid">
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Agri_Energy_Connect</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"

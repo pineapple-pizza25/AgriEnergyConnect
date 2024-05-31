@@ -6,97 +6,62 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-<div>
-    @using (Html.BeginForm("Index", "Products", FormMethod.Get))
-    {
-        <table>
-            <tr>
-                <td>
-                    <span>Search BY :</span>
-                    @Html.RadioButton("searchBy", "ProductName", true)
-                    <Text>Product Name</Text>
-                    @Html.RadioButton("searchBy", "ProductCategory")
-                    <Text>Category</Text>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @Html.TextBox("searchValue", null, new { Class = "form-control" })
-                </td>
-                <td>
-                    <input type="submit" value="Search" class="btn btn-success" />
-                </td>
-            </tr>
-        </table>
-    }
+<div class="container mt-4">
+    <div class="row justify-content-between">
+        <div class="col-md-6">
+            <p>
+                <a asp-action="Create" class="btn btn-success">Create New</a>
+            </p>
+        </div>
+        <div class="col-md-6">
+            @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+            {
+                <div class="input-group">
+                    <span class="input-group-text">Search By:</span>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="searchBy" id="searchByName" value="ProductName" checked>
+                        <label class="form-check-label" for="searchByName">Product Name</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="searchBy" id="searchByCategory" value="ProductCategory">
+                        <label class="form-check-label" for="searchByCategory">Category</label>
+                    </div>
+                    <input class="form-control" type="text" name="searchValue" placeholder="Enter search keyword">
+                    <button class="btn btn-success" type="submit">Search</button>
+                </div>
+            }
+        </div>
+    </div>
 </div>
-<table class="table">
-    <thead>
+
+<table class="table mt-4">
+    <thead class="thead-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Details)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductionDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Unit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpirationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductCategory)
-            </th>
+            <th>Product Name</th>
+            <th>Details</th>
+            <th>Price</th>
+            <th>Production Date</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+            <th>Expiration Date</th>
+            <th>Product Category</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Details)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductionDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpirationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductCategory.CategoryName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Details)</td>
+                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProductionDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                <td>@Html.DisplayFor(modelItem => item.Unit)</td>
+                <td>@Html.DisplayFor(modelItem => item.ExpirationDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProductCategory.CategoryName)</td>
+            
+            </tr>
+        }
     </tbody>
 </table>

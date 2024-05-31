@@ -1,76 +1,103 @@
 ﻿@Html.AntiForgeryToken()
-
 @{
     ViewData["Title"] = "Register";
     ViewBag.Title = "Register";
     var dropdownOptions = ViewBag.DropdownOptions as List<Agri_Energy_Connect.Models.FarmerCategory>;
-
 }
 
-<h4>Register</h4>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Register">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label">Email</label>
-                <input name="Email" class="form-control" />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mt-5 border-0 shadow" style="background-color: #F5F5F5;">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">New Farmer</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Register">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Email" class="form-label text-dark">Email</label>
+                                    <input name="Email" class="form-control" id="Email" style="background-color: #FFFFFF;" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Password" class="form-label text-dark">Password</label>
+                                    <input name="Password" class="form-control" type="password" id="Password" style="background-color: #FFFFFF;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label text-dark">First Name</label>
+                                    <input name="firstName" class="form-control" id="firstName" style="background-color: #FFFFFF;" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label text-dark">Last Name</label>
+                                    <input name="lastName" class="form-control" id="lastName" style="background-color: #FFFFFF;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminAddress" class="form-label text-dark">Address</label>
+                            <input name="adminAddress" class="form-control" id="adminAddress" style="background-color: #FFFFFF;" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phoneNumber" class="form-label text-dark">Phone Number</label>
+                                    <input name="phoneNumber" class="form-control" id="phoneNumber" style="background-color: #FFFFFF;" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="DateOfBirth" class="form-label text-dark">Date of Birth</label>
+                                    <input name="DateOfBirth" class="form-control" type="date" id="DateOfBirth" style="background-color: #FFFFFF;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gender" class="form-label text-dark">Gender</label>
+                                    <input name="gender" class="form-control" id="gender" style="background-color: #FFFFFF;" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="FarmerCategory" class="form-label text-dark">Farmer Category</label>
+                                    <select id="FarmerCategory" name="categoryId" class="form-control" style="background-color: #FFFFFF;">
+                                        @if (dropdownOptions != null)
+                                        {
+                                            foreach (var option in dropdownOptions)
+                                            {
+                                                <option value="@option.Id">@option.CategoryName</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="">No options available</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group text-center mt-4">
+                            <input type="submit" value="Register" class="btn btn-success" style="margin-top:30px;" formmethod="post" />
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a asp-action="Login" class="text-decoration-none" style="color: #388E3C;">Already have an account? Login</a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="control-label">Password</label>
-                <input name="Password" class="form-control" type="password" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">First Name</label>
-                <input name="firstName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Last Name</label>
-                <input name="lastName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Address</label>
-                <input name="adminAddress" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Phone Number</label>
-                <input name="phoneNumber" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Date of Birth</label>
-                <input name="DateOfBirth" class="form-control" type="date" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Gender</label>
-                <input name="gender" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="FarmerCategory">Farmer Category</label>
-                <select id="FarmerCategory" name="categoryId" class="form-control">
-                    @if (dropdownOptions != null)
-                    {
-                        foreach (var option in dropdownOptions)
-                        {
-                            <option value="@option.Id">@option.CategoryName</option>
-                        }
-                    }
-                    else
-                    {
-                        <option value="">No options available</option>
-                    }
-                </select>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-primary" style="margin-top:30px;" formmethod="post" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Login">Already have an account? Login</a>
 </div>
 
 @section Scripts {

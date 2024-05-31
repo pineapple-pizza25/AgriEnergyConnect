@@ -1,5 +1,4 @@
 using Agri_Energy_Connect.Models;
-using Agri_Energy_Connect.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +10,6 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
-builder.Services.AddScoped<NavBarService>();
 
 builder.Services.AddControllersWithViews();
 

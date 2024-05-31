@@ -13,12 +13,12 @@ namespace Agri_Energy_Connect.Controllers
     public class ProductsController : Controller
     {
         private readonly AgriEnergyConnectContext _context;
-        readonly UserChecker _userChecker;
+        UserChecker userChecker;
 
         public ProductsController(AgriEnergyConnectContext context)
         {
             _context = context;
-            _userChecker = new UserChecker();
+            userChecker = new UserChecker();
         }
 
         public IList<ProductCategory> GetProductCategories()
@@ -76,6 +76,9 @@ namespace Agri_Energy_Connect.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            if (userChecker.IsFarmer(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole")) == false)
+            { return RedirectToAction("Index", "Home"); ; }
+
             ViewData["ProductCategoryId"] = new SelectList(_context.ProductCategories, "Id", "Id");
             ViewBag.DropdownOptions = GetProductCategories();
             return View();
@@ -89,7 +92,7 @@ namespace Agri_Energy_Connect.Controllers
         public async Task<IActionResult> Create([Bind("Id,ProductName,Details,Price,ProductionDate,Quantity,Unit,ExpirationDate,ProductCategoryId")] Product product, 
             int categoryId)
         {
-            if (!_userChecker.IsFarmer(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole"))) 
+            if (userChecker.IsFarmer(HttpContext.Session.GetString("currentUser"), HttpContext.Session.GetString("userRole")) == false) 
             { return RedirectToAction("Index", "Home"); ; }
 
             product.FarmerId = HttpContext.Session.GetString("currentUser");

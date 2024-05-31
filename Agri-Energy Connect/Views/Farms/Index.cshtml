@@ -4,50 +4,46 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FarmName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FarmDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FarmAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Farmer)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FarmName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FarmDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FarmAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Farmer.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card border-0 shadow" style="background-color: #F5F5F5;">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Farms</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-end">
+                        <a asp-action="Create" class="btn btn-success">Create New</a>
+                    </p>
+                    <table class="table table-striped">
+                        <thead class="bg-success text-white">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.FarmName)</th>
+                                <th>@Html.DisplayNameFor(model => model.FarmDescription)</th>
+                                <th>@Html.DisplayNameFor(model => model.FarmAddress)</th>
+                                <th>Farmer ID</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.FarmName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FarmDescription)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FarmAddress)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Farmer.Id)</td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

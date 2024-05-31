@@ -6,6 +6,7 @@ C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Conne
 C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\obj\Debug\net8.0\Agri-Energy Connect.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\obj\Debug\net8.0\Agri-Energy Connect.RazorAssemblyInfo.cache
 C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\obj\Debug\net8.0\Agri-Energy Connect.RazorAssemblyInfo.cs
+C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\obj\Debug\net8.0\Agri-Energy Connect.sourcelink.json
 C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\bin\Debug\net8.0\appsettings.json
 C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\bin\Debug\net8.0\Agri-Energy Connect.staticwebassets.runtime.json
@@ -263,4 +264,3 @@ C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Conne
 C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\obj\Debug\net8.0\Agri-Energy Connect.pdb
 C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\obj\Debug\net8.0\Agri-Energy Connect.genruntimeconfig.cache
 C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\obj\Debug\net8.0\ref\Agri-Energy Connect.dll
-C:\Users\lab_services_student\source\repos\Agri-Energy Connect\Agri-Energy Connect\obj\Debug\net8.0\Agri-Energy Connect.sourcelink.json

@@ -68,6 +68,7 @@ namespace Agri_Energy_Connect.Controllers
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("currentUser");
+            HttpContext.Session.Remove("userRole");
             return RedirectToAction("Login");
         }
 

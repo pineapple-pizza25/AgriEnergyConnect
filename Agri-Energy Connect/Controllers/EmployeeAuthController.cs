@@ -46,7 +46,7 @@ namespace Agri_Energy_Connect.Controllers
                 if (currentUserId != null)
                 {
                     HttpContext.Session.SetString("currentUser", currentUserId);
-                    HttpContext.Session.SetString("userRoler", "employee");
+                    HttpContext.Session.SetString("userRole", "employee");
                     return RedirectToAction("Index", "Farmers");
                 }
 
@@ -65,6 +65,7 @@ namespace Agri_Energy_Connect.Controllers
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("currentUser");
+            HttpContext.Session.Remove("userRole");
             return RedirectToAction("Login");
         }
 

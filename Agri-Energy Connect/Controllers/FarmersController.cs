@@ -45,7 +45,7 @@ namespace Agri_Energy_Connect.Controllers
         // GET: Farmers/Create
         public IActionResult Create()
         {
-            return View();
+            return RedirectToAction("Register", "FarmerAuth");
         }
 
         // POST: Farmers/Create
