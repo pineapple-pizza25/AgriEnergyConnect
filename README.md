@@ -1,25 +1,25 @@
-#AgriEnergyConnect
+# AgriEnergyConnect
 
 ##Description
 This application is build as the prototype for a much larger application for farmers and agri culture enthusiasts. 
 This prototype shows the basic design of the application as well ass limited functionality to ser ve as a proof of concept
 
 
-##Installation
+## Installation
 
-####Clone the repository
+#### Clone the repository
 ```
 git clone https://github.com/pineapple-pizza25/AgriEnergyConnect/new/main
 cd your-repo
 ```
 
-####Restore dependancies
+#### Restore dependancies
 ```
 dotnet restore
 ```
 
 
-##Setting up the database
+## Setting up the database
 
 ```
 CREATE DATABASE AgriEnergyConnect;
@@ -51,5 +51,5 @@ select * from product;
 
 
 
-##Additional
+## Additional
 It is also necessary to create an environment variable named: FirebaseAgriEnergy with the following value : AIzaSyDyx_VW7Y6u50LnuxD0tgpcrMxzdJp7TO4
